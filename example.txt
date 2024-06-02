@@ -1,1 +1,0 @@
-Hello, file handling in Go!
