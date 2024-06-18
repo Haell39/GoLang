@@ -11,4 +11,7 @@ func main() {
 	
 	// Chamando a função DemonstrarFundamentos do fundamentos.go
 	DemonstrarFundamentos()
+
+	// Chamando a função sayHello do main3.go
+	funcao()
 }
