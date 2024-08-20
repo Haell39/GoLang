@@ -2,7 +2,6 @@ package main
 
 import "fmt"
 
-func funcao()
-{
-
+func funcao() {
+	fmt.Println("Olá, Mundo 3x!")
 }
