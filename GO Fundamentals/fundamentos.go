@@ -1,105 +1,165 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"errors"
+	"math"
+	"os"
+)
 
-// Variáveis e Tipos de Dados
-func demoVariaveisETipos() {
-	var numero int = 42
-	var texto string = "Olá, Go!"
-	var booleano bool = true
+// Função principal, onde a execução do programa começa
+func Fundamentosback() {
+	// Declaração de variáveis e tipos básicos
+	var myInt int = 10
+	var myFloat float64 = 3.14
+	myString := "Hello, Go!" // Inferência de tipo
+	myBool := true
 
-	fmt.Println("Número:", numero)
-	fmt.Println("Texto:", texto)
-	fmt.Println("Booleano:", booleano)
-}
+	fmt.Println("Integer:", myInt)
+	fmt.Println("Float:", myFloat)
+	fmt.Println("String:", myString)
+	fmt.Println("Boolean:", myBool)
 
-// Estruturas Condicionais
-func demoCondicionais() {
-	numero := 10
-	if numero > 5 {
-		fmt.Println("O número é maior que 5")
+	// Operadores aritméticos
+	sum := myInt + 2
+	difference := myFloat - 1.14
+	product := myInt * 2
+	quotient := myFloat / 2
+	remainder := myInt % 3
+
+	fmt.Println("Sum:", sum)
+	fmt.Println("Difference:", difference)
+	fmt.Println("Product:", product)
+	fmt.Println("Quotient:", quotient)
+	fmt.Println("Remainder:", remainder)
+
+	// Operadores relacionais e lógicos
+	isEqual := myInt == 10
+	isNotEqual := myFloat != 3.14
+	isGreater := myInt > 5
+	isLess := myFloat < 5.0
+	isTrueAnd := myBool && (myInt < 20)
+	isTrueOr := myBool || (myInt > 20)
+
+	fmt.Println("Is Equal:", isEqual)
+	fmt.Println("Is Not Equal:", isNotEqual)
+	fmt.Println("Is Greater:", isGreater)
+	fmt.Println("Is Less:", isLess)
+	fmt.Println("Is True And:", isTrueAnd)
+	fmt.Println("Is True Or:", isTrueOr)
+
+	// Controle de fluxo: if, else, switch
+	if myInt > 5 {
+		fmt.Println("myInt is greater than 5")
 	} else {
-		fmt.Println("O número é 5 ou menor")
+		fmt.Println("myInt is not greater than 5")
 	}
+
+	// Switch case em Go
+	switch myInt {
+	case 10:
+		fmt.Println("myInt is 10")
+	case 20:
+		fmt.Println("myInt is 20")
+	default:
+		fmt.Println("myInt is neither 10 nor 20")
+	}
+
+	// Estruturas de repetição: for loop
+	for i := 1; i <= 5; i++ {
+		fmt.Println("Loop index:", i)
+	}
+
+	// Arrays e slices
+	myArray := [3]int{1, 2, 3}
+	mySlice := []int{4, 5, 6}
+
+	fmt.Println("Array:", myArray)
+	fmt.Println("Slice:", mySlice)
+
+	// Adicionando elementos a um slice
+	mySlice = append(mySlice, 7, 8)
+	fmt.Println("Updated Slice:", mySlice)
+
+	// Iteração sobre slice
+	for index, value := range mySlice {
+		fmt.Printf("Index %d: Value %d\n", index, value)
+	}
+
+	// Funções: definição, argumentos e retorno de valores
+	result := add(5, 3)
+	fmt.Println("Add result:", result)
+
+	// Funções com retorno múltiplo
+	quot, rem := divide(10, 3)
+	fmt.Printf("Quotient: %d, Remainder: %d\n", quot, rem)
+
+	// Structs: definição e métodos
+	person := Person{name: "John", age: 30}
+	person.greet()
+
+	// Manipulação de ponteiros
+	increment(&myInt)
+	fmt.Println("Incremented myInt:", myInt)
+
+	// Tratamento de erros
+	if err := checkAge(person.age); err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("Age is valid")
+	}
+
+	// Entrada e saída: leitura do terminal
+	var input string
+	fmt.Print("Enter some text: ")
+	fmt.Scanln(&input)
+	fmt.Println("You entered:", input)
+
+	// Manipulação de arquivos
+	file, err := os.Create("example.txt")
+	if err != nil {
+		fmt.Println("Error creating file:", err)
+		return
+	}
+	defer file.Close()
+
+	_, err = file.WriteString("Hello, file handling in Go!")
+	if err != nil {
+		fmt.Println("Error writing to file:", err)
+	}
+	fmt.Println("File written successfully")
 }
 
-// Laços
-func demoLacos() {
-	for i := 0; i < 5; i++ {
-		fmt.Println("Contagem:", i)
-	}
-
-	numero := 0
-	for numero < 3 {
-		fmt.Println("Número:", numero)
-		numero++
-	}
-}
-
-// Funções
-func somar(a int, b int) int {
+// Função simples para somar dois inteiros
+func add(a int, b int) int {
 	return a + b
 }
 
-func demoFuncoes() {
-	resultado := somar(3, 4)
-	fmt.Println("Resultado da soma:", resultado)
+// Função para dividir dois inteiros com retorno de quociente e resto
+func divide(a int, b int) (int, int) {
+	return a / b, a % b
 }
 
-// Arrays e Slices
-func demoArraysESlices() {
-	// Arrays
-	var arr [3]int = [3]int{1, 2, 3}
-	fmt.Println("Array:", arr)
-
-	// Slices
-	slice := []int{1, 2, 3, 4, 5}
-	fmt.Println("Slice:", slice)
+// Struct em Go
+type Person struct {
+	name string
+	age  int
 }
 
-// Mapas
-func demoMapas() {
-	idade := map[string]int{
-		"Alice": 30,
-		"Bob":   25,
+// Método para a struct Person
+func (p Person) greet() {
+	fmt.Printf("Hello, my name is %s and I am %d years old.\n", p.name, p.age)
+}
+
+// Função que usa ponteiros para incrementar um valor
+func increment(x *int) {
+	*x = *x + 1
+}
+
+// Função que retorna um erro se a idade for inválida
+func checkAge(age int) error {
+	if age < 18 {
+		return errors.New("age must be 18 or older")
 	}
-	fmt.Println("Idades:", idade)
-	fmt.Println("Idade de Alice:", idade["Alice"])
-}
-
-// Structs
-type Pessoa struct {
-	Nome  string
-	Idade int
-}
-
-func demoStructs() {
-	pessoa := Pessoa{"Carlos", 28}
-	fmt.Println("Pessoa:", pessoa)
-	fmt.Println("Nome:", pessoa.Nome)
-	fmt.Println("Idade:", pessoa.Idade)
-}
-
-// Função principal para demonstrar todos os fundamentos
-func DemonstrarFundamentos() {
-	fmt.Println("=== Variáveis e Tipos de Dados ===")
-	demoVariaveisETipos()
-
-	fmt.Println("\n=== Estruturas Condicionais ===")
-	demoCondicionais()
-
-	fmt.Println("\n=== Laços ===")
-	demoLacos()
-
-	fmt.Println("\n=== Funções ===")
-	demoFuncoes()
-
-	fmt.Println("\n=== Arrays e Slices ===")
-	demoArraysESlices()
-
-	fmt.Println("\n=== Mapas ===")
-	demoMapas()
-
-	fmt.Println("\n=== Structs ===")
-	demoStructs()
+	return nil
 }

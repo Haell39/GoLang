@@ -10,7 +10,7 @@ func main() {
 	sayHello()
 	
 	// Chamando a função DemonstrarFundamentos do fundamentos.go
-	DemonstrarFundamentos()
+	Fundamentosback()
 
 	// Chamando a função sayHello do main3.go
 	funcao()
